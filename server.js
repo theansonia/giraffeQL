@@ -8,15 +8,16 @@ const userRouter = require('./api/routes/user');
 const profileRouter = require('./api/routes/profile');
 const diagramsRouter = require('./api/routes/diagrams');
 const scrapedbRouter = require('./api/db/services/scrapedb');
-
+const aws = require('aws-sdk');
+const settings = require('./settings.js')
 
 const port = parseInt(process.env.PORT, 10) || 3000
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
+const s3 = new aws.S3();
 
 const handle = app.getRequestHandler();
-
 app
   .prepare()
   .then(() => {
@@ -25,6 +26,30 @@ app
 
     server.use(bodyParser.json({ limit: '50mb' }));
     server.use(cookieParser());
+
+    server.get('/sign-s3', (req, res) => {
+      const { fileName, fileType } = req.query;
+    
+      const s3Params = {
+        Bucket: settings.S3_BUCKET,
+        Key: fileName,
+        ContentType: fileType,
+        ACL: 'public-read'
+      };
+      console.log(req.query)
+      console.log(s3Params)
+
+      s3.getSignedUrl('putObject', s3Params, (err, data) => {
+        if (err) {
+          console.error(err);
+        } else {
+          res.json({
+            signedRequest: data,
+            url: `https://${settings.S3_BUCKET}.s3.amazonaws.com/${fileName}`
+          });
+        }
+       });
+    });
 
     server.use((req, res, next) => {
       const hostname = req.hostname === 'www.giraffeql.io' ? 'giraffeql.io' : req.hostname;

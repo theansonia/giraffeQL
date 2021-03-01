@@ -412,14 +412,42 @@ const Canvas = (props) => {
 
         //simulate click
         // link.click();
+        // function getSignedRequest(file) {}
+        const fetchURL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://giraffeql.io';
+        fetch(`/sign-s3?fileName=${diagramId}&fileType=${'.png'}`)
+        .then(res =>  res.json())
+        .then(data => uploadFile(link, data.signedRequest, data.url))
+          function uploadFile(file, signedRequest) {
+            const options = {
+              method: 'PUT',
+              body: file
+            };
+            fetch(signedRequest, options)
+              .then(response =>  console.log(response));
+              };
 
+        //   export function uploadToS3(file) {
+        //     return getSignedRequest(file)
+        //       .then(json => uploadFile(file, json.signedRequest, json.url))
+        //       .then(url => {
+        //         return url;
+        //       })
+        //       .catch(err => {
+        //         console.error(err);
+        //         return null;
+        //       });
+        //   }
+
+        // build fetches for signed url and upload when receive url 
+        
         //remove the link when done
         document.body.removeChild(link);
 
     } else {
 
         window.open(uri);
-
+        
+        
     }
 }
 

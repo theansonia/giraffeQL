@@ -119,7 +119,6 @@ const Home = (props) => {
 
         <section id='two' className='diagonal-box'>
           <div className={`content ${s2 ? 'fade' : ''}`} >
-
             <div className='images' style={{marginLeft: '5%'}} >
               <Image src={'/frontpage/import.gif'} width={1448} height={795} />
             </div>

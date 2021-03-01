@@ -23,6 +23,7 @@
     "@babel/preset-react": "^7.12.13",
     "@emotion/react": "^11.1.5",
     "@zeit/next-sass": "^1.0.1",
+    "aws-sdk": "^2.853.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
     "cross-env": "^7.0.3",

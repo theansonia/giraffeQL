@@ -13,7 +13,7 @@ module.exports = {
     return config
   },
   images: {
-    domains: ['avatars.githubusercontent.com', 'github.com'],
+    domains: ['avatars.githubusercontent.com', 'github.com', 'giraffeql.io.s3.amazonaws.com', 'd16iwnbetghtte.cloudfront.net'],
   },
   // async rewrites() {
   //   return [
